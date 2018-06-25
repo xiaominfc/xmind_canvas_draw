@@ -1,6 +1,6 @@
 ##用js解析xmind，用canvas绘制出来
 
-### 1.解压.xmind后缀的文件，本质上是个zip的压缩包，的到content.xml
+### 1.解压.xmind后缀的文件，本质上是个zip的压缩包，得到content.xml
 
 
 ### 2.在xmind的程序中找到markers的资源包，xmind似乎是个eclipse定制的程序
