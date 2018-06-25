@@ -11,10 +11,12 @@
 
 #### xmind demo 预览
 
-
+![xmind demo](https://raw.githubusercontent.com/xiaominfc/xmind_canvas_draw/master/xmind_demo.png)
 
 
 
 #### canvas demo 预览
+
+![canvas demo](https://raw.githubusercontent.com/xiaominfc/xmind_canvas_draw/master/canvas_demo.png)
 
 
