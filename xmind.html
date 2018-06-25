@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script src="./xmind.js"></script>
+<script>
+    var canvas = document.getElementById('canvas');
+    //canvas.width  = 400;
+    //canvas.height = 300; 
+    var ctx = canvas.getContext('2d');
+    var parser = new XMLParser("./content.xml");
+    var xNode = parser.parse();
+    //xNode.rootNode = xNode;
+    console.log(xNode);
+    xNode.addToContext(ctx);
+    canvas.width = xNode.width + 100 + xNode.x;
+    canvas.height = xNode.height + 100 + xNode.y;
+    //stage.add(xNode)
+    xNode.draw();
+</script>
+</body>
+
+
+</html>
