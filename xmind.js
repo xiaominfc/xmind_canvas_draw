@@ -158,7 +158,7 @@ const markerSheet = new MarkerSheetXML();
 class XMLParser {
 
     constructor(url) {
-        this.xmldoc = loadXML('./content.xml')
+        this.xmldoc = loadXML(url)
         //   console.log(this.xmldoc)
         var sheets = this.xmldoc.getElementsByTagName('sheet')
         this.sheets = sheets
@@ -171,7 +171,18 @@ class XMLParser {
         node.rootNode = node;
         node.x = 60;
         node.y = 50;
-        node.parseXMLNode(mainSheet.firstChild)
+        var topicNode = null;
+        var childNodes = mainSheet.childNodes;
+        for (var i = 0 ; i < childNodes.length; i++) {
+            var child = childNodes[i];
+            var nodeName = child.nodeName;
+            if(nodeName == 'topic') {
+                topicNode = child;
+            }
+        }
+        if(topicNode) {
+            node.parseXMLNode(topicNode)    
+        }
         return node;
     }
 
@@ -461,7 +472,6 @@ class XNode extends IconTextNode{
     }
 
     parseXMLNode(xmlNode) {
-        //console.log(xmlNode)
         this.maxChildW = 0;
         this.height = 0;
         this.c_width = MinTextWidth;
