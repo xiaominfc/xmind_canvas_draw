@@ -2,24 +2,45 @@
 <html>
 <head>
     <title></title>
+    <script src="./zip_lib/zip.js"></script>
+    <script src="./zip_lib/zip-ext.js"></script>
 </head>
 <body>
 <canvas id="canvas"></canvas>
 <script src="./xmind.js"></script>
 <script>
-    var canvas = document.getElementById('canvas');
-    //canvas.width  = 400;
-    //canvas.height = 300; 
-    var ctx = canvas.getContext('2d');
-    var parser = new XMLParser("./content.xml");
-    var xNode = parser.parse();
-    //xNode.rootNode = xNode;
-    console.log(xNode);
-    xNode.addToContext(ctx);
-    canvas.width = xNode.width + 100 + xNode.x;
-    canvas.height = xNode.height + 100 + xNode.y;
-    //stage.add(xNode)
-    xNode.draw();
+    zip.workerScriptsPath = "./zip_lib/"
+    zip.createReader(new zip.HttpReader('./demo.xmind'), function(reader) {
+        reader.getEntries(function(entries) {
+            if (entries.length) {
+                for(var index = 0; index < entries.length; index++) {
+                    if('content.xml' == entries[index].filename) {
+                        entries[index].getData(new zip.TextWriter(), function(text) {
+                            var canvas = document.getElementById('canvas');
+                            var ctx = canvas.getContext('2d');
+                            var parser = new XMLParser(text,false);
+                            var xNode = parser.parse();
+                            console.log(xNode);
+                            xNode.addToContext(ctx);
+                            canvas.width = xNode.width + 100 + xNode.x;
+                            canvas.height = xNode.height + 100 + xNode.y;
+                            xNode.draw();                       
+                            reader.close(function() {
+                            });
+                        }, function(current, total) {
+
+                        });
+                    break;
+                    }   
+                }
+
+            }
+        });
+    }, function(error) {
+        // onerror callback
+    });
+
+    
 </script>
 </body>
 

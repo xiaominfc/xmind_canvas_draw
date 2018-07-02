@@ -28,6 +28,21 @@ function loadXML(xmlurl){
     return xmlDoc;
 }
 
+function loadXMLText(text) {
+    var xmlDoc;
+    if (window.DOMParser) {
+        //非IE浏览器
+        xmlDoc = (new DOMParser()).parseFromString(text, "text/xml");
+    } else {
+        //IE浏览器
+        xmlDoc = new ActiveXObject("Microsoft.XMLDOM");         
+        // 或者：xmlDoc = new ActiveXObject("MSXML2.DOMDocument");      
+        xmlDoc.async = "false";        //不启用异步，保证加载文件成功之前不会进行下面操作
+        xmlDoc.loadXML(text);
+    }
+    return xmlDoc           
+}
+
 
 function fillRoundRect(cxt,x,y,width,height,radius,/*optional*/fillColor){  
     //圆的直径必然要小于矩形的宽高          
@@ -157,9 +172,13 @@ const markerSheet = new MarkerSheetXML();
 
 class XMLParser {
 
-    constructor(url) {
-        this.xmldoc = loadXML(url)
-        //   console.log(this.xmldoc)
+    constructor(text,isUrl=true) {
+        if(isUrl) {
+            this.xmldoc = loadXML(text)
+        }else {
+            this.xmldoc = loadXMLText(text)
+        }
+                //   console.log(this.xmldoc)
         var sheets = this.xmldoc.getElementsByTagName('sheet')
         this.sheets = sheets
     }
